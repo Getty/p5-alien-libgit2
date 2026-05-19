@@ -1,6 +1,5 @@
 use Test2::V0;
 use Test::Alien;
-use Test::Alien::FFI;
 use Alien::Libgit2;
 use FFI::Platypus 2.00;
 

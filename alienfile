@@ -5,19 +5,10 @@ use Path::Tiny;
 # Falls back to building from the bundled source tarball.
 # (Min raised when we start using post-1.5 APIs in Git::Libgit2.)
 
-probe [ 'pkg-config --atleast-version=1.5 libgit2' ];
-
-sys {
-  gather sub {
-    my ($build) = @_;
-    chomp( my $cflags  = `pkg-config --cflags      libgit2` );
-    chomp( my $libs    = `pkg-config --libs         libgit2` );
-    chomp( my $version = `pkg-config --modversion   libgit2` );
-    $build->runtime_prop->{cflags}  = $cflags;
-    $build->runtime_prop->{libs}    = $libs;
-    $build->runtime_prop->{version} = $version;
-  };
-};
+plugin 'PkgConfig' => (
+  pkg_name        => 'libgit2',
+  minimum_version => '1.5',
+);
 
 share {
   start_url 'file://' . Path::Tiny->cwd->child('share/libgit2-1.9.3.tar.gz')->stringify;
