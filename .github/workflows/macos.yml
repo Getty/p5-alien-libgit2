@@ -1,0 +1,55 @@
+name: macos
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  pull_request:
+jobs:
+  # System libgit2 via Homebrew (probe path).
+  brew-libgit2:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Homebrew libgit2
+        run: brew install libgit2 pkg-config
+      - name: Set up Perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: '5.40'
+      - name: perl -V
+        run: perl -V
+      - name: Install Dist::Zilla
+        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY
+      - name: Install dependencies
+        run: |
+          dzil authordeps --missing | cpanm -nq
+          dzil listdeps --missing | cpanm -nq
+      - name: Run tests
+        env:
+          # Help FFI::Platypus find Homebrew libs (Apple Silicon path).
+          DYLD_FALLBACK_LIBRARY_PATH: /opt/homebrew/lib:/usr/local/lib
+        run: dzil test
+
+  # Share build (vendored libgit2).
+  share-build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build prerequisites
+        run: brew install cmake openssl@3 libssh2 pkg-config
+      - name: Set up Perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: '5.40'
+      - name: Install Dist::Zilla
+        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY
+      - name: Install dependencies
+        run: |
+          dzil authordeps --missing | cpanm -nq
+          dzil listdeps --missing | cpanm -nq
+      - name: Force share build
+        env:
+          ALIEN_INSTALL_TYPE: share
+        run: dzil test

@@ -66,5 +66,6 @@ blib/
 .envrc
 .build/
 Alien-Libgit2-*/
+Alien-Libgit2-*.tar.gz
 _alien/
 AGENTS.md
