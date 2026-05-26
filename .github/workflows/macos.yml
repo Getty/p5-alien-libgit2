@@ -21,7 +21,7 @@ jobs:
       - name: perl -V
         run: perl -V
       - name: Install Dist::Zilla
-        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY
+        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY Dist::Zilla::Plugin::AlienBuild && dzil install
       - name: Install dependencies
         run: |
           dzil authordeps --missing | cpanm -nq
@@ -44,7 +44,7 @@ jobs:
         with:
           perl-version: '5.40'
       - name: Install Dist::Zilla
-        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY
+        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY Dist::Zilla::Plugin::AlienBuild && dzil install
       - name: Install dependencies
         run: |
           dzil authordeps --missing | cpanm -nq

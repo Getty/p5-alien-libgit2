@@ -32,7 +32,7 @@ jobs:
           apt-get install -y --no-install-recommends \
             libgit2-dev pkg-config git
       - name: Install Dist::Zilla
-        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY
+        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY Dist::Zilla::Plugin::AlienBuild && dzil install
       - name: Install dependencies
         run: |
           dzil authordeps --missing | cpanm -nq
@@ -60,7 +60,7 @@ jobs:
           apt-get install -y --no-install-recommends \
             cmake build-essential libssl-dev libssh2-1-dev zlib1g-dev pkg-config git
       - name: Install Dist::Zilla
-        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY
+        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY Dist::Zilla::Plugin::AlienBuild && dzil install
       - name: Install dependencies
         run: |
           dzil authordeps --missing | cpanm -nq
