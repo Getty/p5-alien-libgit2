@@ -16,7 +16,6 @@ jobs:
         codename:
           - bookworm
         perl-version:
-          - '5.32'
           - '5.36'
           - '5.38'
           - '5.40'
@@ -24,6 +23,8 @@ jobs:
       image: perl:${{ matrix.perl-version }}-${{ matrix.codename }}
     steps:
       - uses: actions/checkout@v4
+      - name: Fix safe.directory
+        run: git config --global --add safe.directory /__w/p5-alien-libgit2/p5-alien-libgit2
       - name: perl -V
         run: perl -V
       - name: Install build prerequisites
@@ -58,6 +59,8 @@ jobs:
       image: perl:${{ matrix.perl-version }}-${{ matrix.codename }}
     steps:
       - uses: actions/checkout@v4
+      - name: Fix safe.directory
+        run: git config --global --add safe.directory /__w/p5-alien-libgit2/p5-alien-libgit2
       - name: Install build prerequisites
         run: |
           apt-get update
