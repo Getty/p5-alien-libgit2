@@ -15,3 +15,7 @@ on test => sub {
   requires 'Test::Alien'   => 0;
   requires 'FFI::Platypus' => '2.00';
 };
+
+on develop => sub {
+  requires 'Test::Pod' => 0;
+};
