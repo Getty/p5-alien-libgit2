@@ -1,5 +1,7 @@
 Revision history for Alien-Libgit2
 
+{{$NEXT}}
+
 0.001     2026-05-27 03:14:28Z
 
   - Update CI workflows to use the shared dzil-test composite action from
