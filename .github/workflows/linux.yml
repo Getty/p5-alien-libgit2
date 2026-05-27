@@ -32,18 +32,8 @@ jobs:
           apt-get update
           apt-get install -y --no-install-recommends \
             libgit2-dev pkg-config git
-      - name: Install Dist::Zilla
-        env:
-          PERL_CPANM_OPT: --mirror http://cpan.metacpan.org --mirror-only
-        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY && dzil install
-      - name: Install dependencies
-        env:
-          PERL_CPANM_OPT: --mirror http://cpan.metacpan.org --mirror-only
-        run: |
-          dzil authordeps --missing | cpanm -nq
-          dzil listdeps --missing | cpanm -nq
-      - name: Run tests
-        run: dzil test
+      - name: dzil test
+        uses: Getty/p5-dist-zilla-pluginbundle-author-getty/.github/actions/dzil-test@main
 
   # Share build (vendored libgit2 + cmake).
   share-build:
@@ -66,17 +56,7 @@ jobs:
           apt-get update
           apt-get install -y --no-install-recommends \
             cmake build-essential libssl-dev libssh2-1-dev zlib1g-dev pkg-config git
-      - name: Install Dist::Zilla
-        env:
-          PERL_CPANM_OPT: --mirror http://cpan.metacpan.org --mirror-only
-        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY && dzil install
-      - name: Install dependencies
-        env:
-          PERL_CPANM_OPT: --mirror http://cpan.metacpan.org --mirror-only
-        run: |
-          dzil authordeps --missing | cpanm -nq
-          dzil listdeps --missing | cpanm -nq
-      - name: Force share build
-        env:
-          ALIEN_INSTALL_TYPE: share
-        run: dzil test
+      - name: dzil test (share build)
+        uses: Getty/p5-dist-zilla-pluginbundle-author-getty/.github/actions/dzil-test@main
+        with:
+          install-type: share

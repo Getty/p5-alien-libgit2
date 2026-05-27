@@ -10,6 +10,10 @@ jobs:
   # System libgit2 via Homebrew (probe path).
   brew-libgit2:
     runs-on: macos-14
+    env:
+      # Help FFI::Platypus find Homebrew libs (Apple Silicon path).
+      # Job-level so it reaches the composite action's dzil step.
+      DYLD_FALLBACK_LIBRARY_PATH: /opt/homebrew/lib:/usr/local/lib
     steps:
       - uses: actions/checkout@v4
       - name: Install Homebrew libgit2
@@ -20,21 +24,8 @@ jobs:
           perl-version: '5.40'
       - name: perl -V
         run: perl -V
-      - name: Install Dist::Zilla
-        env:
-          PERL_CPANM_OPT: --mirror http://cpan.metacpan.org --mirror-only
-        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY && dzil install
-      - name: Install dependencies
-        env:
-          PERL_CPANM_OPT: --mirror http://cpan.metacpan.org --mirror-only
-        run: |
-          dzil authordeps --missing | cpanm -nq
-          dzil listdeps --missing | cpanm -nq
-      - name: Run tests
-        env:
-          # Help FFI::Platypus find Homebrew libs (Apple Silicon path).
-          DYLD_FALLBACK_LIBRARY_PATH: /opt/homebrew/lib:/usr/local/lib
-        run: dzil test
+      - name: dzil test
+        uses: Getty/p5-dist-zilla-pluginbundle-author-getty/.github/actions/dzil-test@main
 
   # Share build (vendored libgit2).
   share-build:
@@ -47,17 +38,7 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: '5.40'
-      - name: Install Dist::Zilla
-        env:
-          PERL_CPANM_OPT: --mirror http://cpan.metacpan.org --mirror-only
-        run: cpanm -nq Dist::Zilla Dist::Zilla::PluginBundle::Author::GETTY && dzil install
-      - name: Install dependencies
-        env:
-          PERL_CPANM_OPT: --mirror http://cpan.metacpan.org --mirror-only
-        run: |
-          dzil authordeps --missing | cpanm -nq
-          dzil listdeps --missing | cpanm -nq
-      - name: Force share build
-        env:
-          ALIEN_INSTALL_TYPE: share
-        run: dzil test
+      - name: dzil test (share build)
+        uses: Getty/p5-dist-zilla-pluginbundle-author-getty/.github/actions/dzil-test@main
+        with:
+          install-type: share
