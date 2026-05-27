@@ -56,6 +56,12 @@ jobs:
           apt-get update
           apt-get install -y --no-install-recommends \
             cmake build-essential libssl-dev libssh2-1-dev zlib1g-dev pkg-config git
+      # Build::CMake injects Alien::cmake3 as a *dynamic* configure prereq only
+      # for share builds, so it never reaches the static metadata that the
+      # dzil-test action installs from. Install it explicitly here; it picks up
+      # the apt cmake above and builds nothing.
+      - name: Install Alien::cmake3 (dynamic share-build prereq)
+        run: cpanm -nq Alien::cmake3
       - name: dzil test (share build)
         uses: Getty/p5-dist-zilla-pluginbundle-author-getty/.github/actions/dzil-test@main
         with:

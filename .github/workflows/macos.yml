@@ -38,6 +38,12 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: '5.40'
+      # Build::CMake injects Alien::cmake3 as a *dynamic* configure prereq only
+      # for share builds, so it never reaches the static metadata that the
+      # dzil-test action installs from. Install it explicitly here; it picks up
+      # the brew cmake above and builds nothing.
+      - name: Install Alien::cmake3 (dynamic share-build prereq)
+        run: cpanm -nq Alien::cmake3
       - name: dzil test (share build)
         uses: Getty/p5-dist-zilla-pluginbundle-author-getty/.github/actions/dzil-test@main
         with:
