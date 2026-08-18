@@ -7,7 +7,7 @@ FFI or XS.
 
 Alien::Libgit2 follows the Alien::Build pattern:
 
-1. First checks if a system libgit2 (>= 1.5) is available via `pkg-config libgit2`
+1. First checks if a system libgit2 (>= 1.9.3) is available via `pkg-config libgit2`
 2. If not, builds libgit2 from source (bundled tarball — no network required)
 
 ## Used By
@@ -42,7 +42,9 @@ so we don't pick up an inconsistent regex lib at runtime.
 
 ## Key Details
 
-- System install preferred — faster, picks up distro security patches
+- System install preferred — faster, picks up distro security patches — but
+  only from 1.9.3 up: below that libgit2's ssh transport hangs forever on a
+  silent peer (PR #7165), so older distro libs fall through to share
 - Share install builds libgit2 in the local Alien dir, no system pollution
 - Pinned to a single bundled libgit2 version per Alien::Libgit2 release
   (ABI bumps between minor versions of libgit2)
