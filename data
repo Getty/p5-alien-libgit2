@@ -1,0 +1,57 @@
+---
+claimed_at: 2026-08-24T01:16:00Z
+claimed_by: claude
+class: standard
+completed: 2026-08-24T01:16:00Z
+created: 2026-08-23T22:49:43Z
+id: 1
+priority: high
+started: 2026-08-24T01:16:00Z
+status: done
+tags:
+- release
+- git
+title: Die 0.002-Arbeit liegt uncommitted im Arbeitsbaum
+updated: 2026-08-24T01:16:04Z
+---
+
+Aufgenommen 2026-08-23 beim Kassensturz ueber die Flotte. Das Repo hatte bis
+dahin kein karr-Board; das ist der Grund, warum diese Punkte nirgends standen.
+
+## Befund
+
+`git status` zeigt sieben geaenderte Dateien, `git log origin/main..HEAD` drei
+ungepushte Commits. Die geaenderten Dateien sind nicht Reste, sondern die
+0.002-Arbeit selbst:
+
+  lib/Alien/Libgit2.pm   POD sagte weiter "system libgit2 (>= 1.5)"; jetzt
+                         1.9.3, mit dem Grund daneben (PR #7165, ssh-Transport
+                         schleift auf LIBSSH2_ERROR_TIMEOUT endlos)
+  README.md              dieselbe Korrektur, plus Installationsabschnitt
+  Changes                drei Eintraege unter {{$NEXT}}
+  .github/workflows/linux.yml   system-libgit2-Job baut 1.9.3 nach /usr/local
+  .github/workflows/macos.yml   Versionspruefung vor dem dzil-Schritt
+  .gitignore             Release-Artefakte auf den Dist-Namen gezogen
+  CLAUDE.md              Skills-Abschnitt (perl-alien verlinkt, perl-xs nicht)
+
+$VERSION steht bereits auf 0.002, getaggt ist 0.001.
+
+## Warum das hier steht und nicht nur im Arbeitsbaum
+
+Alien::Libgit2 0.002 ist der Kopf einer Kette: Git::Libgit2 0.007 pinnt es,
+Git::Native 0.006 pinnt Git::Libgit2 0.007, App::karr 0.501 pinnt alle drei.
+Solange die Arbeit uncommitted ist, gibt es nichts, wogegen die CI laufen
+koennte -- siehe das CI-Ticket auf diesem Board.
+
+## Zu tun
+
+Durchsehen und committen. Nichts davon ist halbfertig: die POD- und
+README-Korrektur ist der Floor-Anhub aus 10de26e nachgezogen, die
+Changes-Eintraege decken alle drei Aenderungen ab, und die
+Workflow-Aenderungen sind vollstaendig (der `install-type`-Input der geteilten
+dzil-test-Action liegt auf origin/main des Bundle-Repos, ist also erreichbar).
+
+Der Push gehoert dazu, ist aber nach aussen gerichtet und damit eine
+Maintainer-Entscheidung.
+
+Committed als 5ad63f9 (.gitignore), 711e11d (CI-Pinning + 1.9.3-Doku) und ce7d372 (Agent-Team, Rules, alien-libgit2-core). Nicht gepusht.
