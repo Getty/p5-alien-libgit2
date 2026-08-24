@@ -1,0 +1,62 @@
+---
+claimed_at: 2026-08-24T01:24:50Z
+claimed_by: claude
+class: standard
+completed: 2026-08-24T01:24:50Z
+created: 2026-08-23T22:50:31Z
+id: 3
+priority: medium
+started: 2026-08-24T01:24:50Z
+status: done
+tags:
+- tests
+- coverage
+title: t/01-alien.t prueft major >= 1 -- der 1.9.3-Floor ist der einzige Grund fuer
+  0.002 und wird nirgends geprueft
+updated: 2026-08-24T01:24:50Z
+---
+
+Aufgenommen 2026-08-23 beim Lesen der Distribution, nicht aus einem
+Fehlerbericht.
+
+## Befund
+
+t/01-alien.t ist die einzige Testdatei. Ihre Versionszusicherung lautet:
+
+    ok( defined $maj && $maj >= 1, "libgit2 major version >= 1 (got $maj.$min.$rev)" );
+
+Das ist gegen jedes libgit2 ab 1.0 gruen -- auch gegen bookworms 1.5.1, also
+genau gegen die Version, wegen der 0.002 ueberhaupt existiert. Die Datei
+kann damit nicht sagen, ob die Bibliothek, gegen die gerade gelinkt wird,
+den Floor haelt.
+
+## Was heute stattdessen den Floor haelt
+
+Der `PkgConfig`-Plugin-Aufruf im alienfile mit `minimum_version => '1.9.3'`.
+Der gilt fuer die PROBE: findet pkg-config nur eine aeltere, faellt der
+Build auf den share build mit dem gebundelten 1.9.3 zurueck. Fuer den
+normalen Installationsweg reicht das.
+
+Der neue CI-Umbau prueft den Floor zusaetzlich mit
+`pkg-config --modversion libgit2` als eigenem Schritt (siehe Ticket #2) --
+was zeigt, dass die Frage fuer wichtig genug gehalten wird, um sie zu
+stellen. Nur steht die Antwort dann im Workflow und nicht in der
+Distribution, also sieht sie niemand, der das Modul installiert.
+
+## Zu klaeren, bevor gebaut wird
+
+1. Ist der Fall ueberhaupt erreichbar? Wenn `PkgConfig` mit
+   `minimum_version` eine zu alte System-Bibliothek zuverlaessig ablehnt
+   und der share build immer 1.9.3 liefert, ist eine Testzusicherung
+   Guertel-und-Hosentraeger -- nicht falsch, aber auch keine Luecke.
+   Empirisch beantworten, nicht aus dem Plugin-POD schliessen: eine
+   erzwungene `ALIEN_INSTALL_TYPE=system` gegen eine zu alte Bibliothek
+   probieren und sehen, was passiert.
+2. Falls erreichbar: die Zusicherung gehoert in t/01-alien.t, gegen
+   `git_libgit2_version` -- die Funktion wird dort schon attached, es
+   fehlt nur der Vergleich gegen 1.9.3 statt gegen 1.
+
+Beides ist klein. Die Prioritaet ist medium und nicht high, weil der
+Installationspfad heute richtig ist -- was fehlt, ist der Beweis dafuer.
+
+Punkt 1 empirisch geklaert: ALIEN_INSTALL_TYPE=system gegen die lokale 1.9.0 bricht schon in Makefile.PL ab (pkgconf --atleast-version=1.9.3 schlaegt fehl, exit 2) -- der Testlauf wird in dem Fall nie erreicht. Die Zusicherung ist also kein Ersatz fuer die Probe, sondern die Laufzeitkontrolle: sie misst die tatsaechlich geladene Bibliothek statt der .pc-Datei zur Bauzeit, und deckt auch den share build ab (ausgetauschtes/falsch verpacktes Tarball). Punkt 2 umgesetzt in d1c956f: Tupelvergleich gegen 1.9.3 (Grenzfaelle 1.9.2/1.9.3/1.9.10/1.10.0 geprueft) plus install-type-Abgleich gegen ALIEN_INSTALL_TYPE. Lokal gruen im share build.
