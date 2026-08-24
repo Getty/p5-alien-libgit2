@@ -11,6 +11,10 @@ Revision history for Alien-Libgit2
 
   - Correct README and POD: both still documented the old 1.5 floor.
 
+  - POD now carries what README.md only showed on GitHub: the install
+    decision, the share-build dependencies, ALIEN_INSTALL_TYPE and the
+    consumers. README.md is not shipped to CPAN.
+
   - CI: the linux system-libgit2 job installs the bundled 1.9.3 into
     /usr/local instead of apt's libgit2-dev. No Debian release reaches the
     floor (bookworm 1.5.1, trixie 1.9.0), so since the raise that job had
