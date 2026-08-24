@@ -1,0 +1,16 @@
+{"action":"create","agent":"Torsten Raudssus","detail":"backlog","task_id":1,"ts":"2026-08-23T22:49:43Z"}
+{"action":"create","agent":"Torsten Raudssus","detail":"backlog","task_id":2,"ts":"2026-08-23T22:50:06Z"}
+{"action":"create","agent":"Torsten Raudssus","detail":"backlog","task_id":3,"ts":"2026-08-23T22:50:31Z"}
+{"action":"move","agent":"claude","detail":"done","task_id":1,"ts":"2026-08-24T01:16:00Z"}
+{"action":"edit","agent":"claude","detail":"done","task_id":1,"ts":"2026-08-24T01:16:04Z"}
+{"action":"edit","agent":"Torsten Raudssus","detail":"backlog","task_id":3,"ts":"2026-08-24T01:24:46Z"}
+{"action":"move","agent":"claude","detail":"done","task_id":3,"ts":"2026-08-24T01:24:50Z"}
+{"action":"edit","agent":"Torsten Raudssus","detail":"backlog","task_id":2,"ts":"2026-08-24T01:30:21Z"}
+{"action":"move","agent":"claude","detail":"done","task_id":2,"ts":"2026-08-24T01:30:25Z"}
+{"action":"create","agent":"Torsten Raudssus","detail":"backlog","task_id":4,"ts":"2026-08-24T04:28:08Z"}
+{"action":"create","agent":"Torsten Raudssus","detail":"backlog","task_id":5,"ts":"2026-08-24T04:28:15Z"}
+{"action":"create","agent":"Torsten Raudssus","detail":"backlog","task_id":6,"ts":"2026-08-24T04:28:19Z"}
+{"action":"move","agent":"Torsten Raudssus","detail":"done","task_id":6,"ts":"2026-08-24T04:34:07Z"}
+{"action":"move","agent":"Torsten Raudssus","detail":"done","task_id":4,"ts":"2026-08-24T04:34:11Z"}
+{"action":"move","agent":"alien-libgit2-worker","detail":"in-progress","task_id":5,"ts":"2026-08-24T04:34:15Z"}
+{"action":"move","agent":"alien-libgit2-worker","detail":"done","task_id":5,"ts":"2026-08-24T04:44:44Z"}
