@@ -9,6 +9,18 @@ Revision history for Alien-Libgit2
     timeout option reaches the libssh2 read loop. A system lib below the fix
     now falls through to the bundled 1.9.3 share build.
 
+  - Correct README and POD: both still documented the old 1.5 floor.
+
+  - CI: the linux system-libgit2 job installs the bundled 1.9.3 into
+    /usr/local instead of apt's libgit2-dev. No Debian release reaches the
+    floor (bookworm 1.5.1, trixie 1.9.0), so since the raise that job had
+    been falling through to a share build with none of the share build's
+    prerequisites installed. All four CI jobs now pin ALIEN_INSTALL_TYPE
+    explicitly, so a probe landing on the wrong path fails the job instead
+    of silently testing the other one.
+
+  - Link the shared perl-alien skill into .claude/skills/ (manage-skills).
+
 0.001     2026-05-27 03:14:28Z
 
   - Update CI workflows to use the shared dzil-test composite action from

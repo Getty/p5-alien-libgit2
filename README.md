@@ -20,9 +20,15 @@ my @libs = Alien::Libgit2->dynamic_libs;
 `Alien::Libgit2` provides the C library [libgit2](https://libgit2.org/) for use by
 other CPAN modules that need to link against it.
 
-It first checks whether a system `libgit2` (>= 1.5) is available via
+It first checks whether a system `libgit2` (>= 1.9.3) is available via
 `pkg-config`. If not, it builds libgit2 from a bundled source tarball using
 CMake. No network access is required during install.
+
+The 1.9.3 floor is a bug fix, not an API requirement: below it, libgit2's ssh
+transport loops forever on `LIBSSH2_ERROR_TIMEOUT`, so a peer that accepts the
+connection and then goes silent parks the caller indefinitely — no libgit2
+timeout option reaches that loop. A system lib below the fix falls through to
+the bundled share build instead.
 
 ## Installation
 
@@ -30,8 +36,9 @@ CMake. No network access is required during install.
 cpanm Alien::Libgit2
 ```
 
-Requires a libgit2 shared library (>= 1.5). If `pkg-config libgit2` is not
-found, the module builds from the bundled libgit2-1.9.3 tarball using CMake.
+If `pkg-config` reports a system libgit2 of 1.9.3 or newer, that one is used.
+Otherwise the module builds from the bundled libgit2-1.9.3 tarball using CMake —
+no network access needed.
 
 ### Build dependencies (share install)
 
