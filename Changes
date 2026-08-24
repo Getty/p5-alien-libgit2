@@ -19,6 +19,12 @@ Revision history for Alien-Libgit2
     explicitly, so a probe landing on the wrong path fails the job instead
     of silently testing the other one.
 
+  - t/01-alien.t asserts the 1.9.3 floor against the libgit2 that is actually
+    loaded, instead of "major >= 1", which stayed green against every libgit2
+    back to 1.0 -- including the versions 0.002 exists for. It also notes the
+    install type and, when ALIEN_INSTALL_TYPE forces one, asserts that the
+    build honoured it.
+
   - Link the shared perl-alien skill into .claude/skills/ (manage-skills).
 
 0.001     2026-05-27 03:14:28Z
