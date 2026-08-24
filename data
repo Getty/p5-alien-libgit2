@@ -1,0 +1,11 @@
+---
+class: standard
+completed: 2026-08-24T04:34:11Z
+created: 2026-08-24T04:28:08Z
+id: 4
+priority: medium
+started: 2026-08-24T04:34:11Z
+status: done
+title: dist.ini copyright_holder leaks raw POD markup into LICENSE and generated README
+updated: 2026-08-24T04:34:11Z
+---
