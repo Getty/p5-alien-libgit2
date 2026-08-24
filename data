@@ -1,0 +1,57 @@
+---
+claimed_at: 2026-08-24T01:30:25Z
+claimed_by: claude
+class: standard
+completed: 2026-08-24T01:30:25Z
+created: 2026-08-23T22:50:06Z
+id: 2
+priority: high
+started: 2026-08-24T01:30:25Z
+status: done
+tags:
+- ci
+- release
+title: CI hat die neue Workflow-Form nie ausgefuehrt -- letzter Lauf ist vom 27.05.
+updated: 2026-08-24T01:30:25Z
+---
+
+Aufgenommen 2026-08-23. Gemessen ueber `gh run list -R Getty/p5-alien-libgit2`.
+
+## Befund
+
+Die vier letzten CI-Laeufe sind alle vom 2026-05-27 und alle gruen -- der
+juengste traegt "increment $VERSION after 0.001 release". Seither ist der
+Floor von 1.5 auf 1.9.3 gestiegen (10de26e), und beide Workflows sind
+umgebaut worden. Nichts davon ist je gelaufen:
+
+  linux.yml   Der system-libgit2-Job installierte bisher apt's libgit2-dev.
+              Kein Debian-Release erreicht den Floor -- bookworm 1.5.1,
+              trixie 1.9.0 -- also ist dieser Job seit dem Anhub in einen
+              share build gefallen, ohne dessen Voraussetzungen installiert
+              zu haben. Der Umbau baut stattdessen das gebundelte 1.9.3 nach
+              /usr/local, prueft `pkg-config --modversion libgit2` = 1.9.3
+              und setzt `install-type: system`, damit eine fehlgeschlagene
+              Probe den Job umwirft statt still den anderen Pfad zu testen.
+  macos.yml   Homebrews libgit2 ist derzeit das einzige gepackte >= 1.9.3,
+              also ist dieser Job die eigentliche Abdeckung des Probe-Pfads.
+              Neu: Versionspruefung vor dem dzil-Schritt.
+
+## Warum das ein eigenes Ticket ist
+
+Die Aenderung ist genau die Sorte, die man nicht lokal beweisen kann: sie
+betrifft die Runner und nicht den Code. Und der bisherige Zustand ist der
+unangenehme Fall -- gruene Laeufe, die den falschen Pfad getestet haben. Ein
+gruener Lauf war hier bis jetzt kein Signal.
+
+## Zu tun
+
+Nach dem Commit (Ticket #1) pushen und die vier Jobs ansehen. Erwartet wird,
+dass jeder Job sagt, welchen Install-Type er gefahren hat, und dass linux
+system-libgit2 und macos system-libgit2 wirklich `system` fahren -- nicht
+skip, nicht share.
+
+Faellt einer, gehoert das Ergebnis hierher und nicht in einen zweiten
+Durchlauf ins Blaue: die /usr/local-Installation ist neu und die
+CMake-Flags dort sind von Hand mit denen im alienfile gleichgezogen.
+
+Erledigt: 7 offene Commits gepusht (bis d1c956f), CI hat die neue Workflow-Form zum ersten Mal ausgefuehrt. Beide Laeufe gruen: linux 3x system-libgit2 (bookworm, Perl 5.36/5.38/5.40) + share-build, macos brew-libgit2 + share-build. Der Verify-Schritt meldet pkg-config --modversion libgit2 = 1.9.3, und alle sechs Jobs zeigen Files=3, Tests=6 -- die sechste Assertion ist der neue install-type-Abgleich, laeuft also unter gesetztem ALIEN_INSTALL_TYPE in jedem Job. Anmerkung: die note()-Diagnose zum Install-Typ steht nur im verbose-Harness, im CI-Log sieht man sie nicht.
