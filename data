@@ -1,0 +1,12 @@
+---
+class: standard
+completed: 2026-08-24T04:34:07Z
+created: 2026-08-24T04:28:19Z
+id: 6
+priority: low
+started: 2026-08-24T04:34:07Z
+status: done
+title: CPAN tarball ships internal dev tooling (.claude/, .github/, CLAUDE.md, dist.ini,
+  .gitignore)
+updated: 2026-08-24T04:34:07Z
+---
