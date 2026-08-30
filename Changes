@@ -1,6 +1,6 @@
 Revision history for Alien-Libgit2
 
-{{$NEXT}}
+0.002     2026-08-30 13:47:34Z
 
   - Raise the system-libgit2 floor from 1.5 to 1.9.3. Not an API requirement:
     libgit2 PR #7165 (in 1.9.3) fixed an ssh transport that looped forever on
