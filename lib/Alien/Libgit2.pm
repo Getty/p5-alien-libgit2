@@ -1,7 +1,7 @@
 # ABSTRACT: Find or build libgit2, the linkable Git library
 
 package Alien::Libgit2;
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 use strict;
 use warnings;
 use parent 'Alien::Base';
