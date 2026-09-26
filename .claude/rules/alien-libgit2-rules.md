@@ -30,9 +30,9 @@ Depends on whether the Agent/Task tool is available to you.
   | Task | Agent |
   |---|---|
   | alienfile, share/ tarball, CI workflows, t/, lib/Alien/, POD | `alien-libgit2-worker` (default) |
-  | Pre-release audit (CPAN) | `alien-libgit2-release-checker` |
+  | Commits, `Changes`, card → done, pre-release audit | `alien-libgit2-release-manager` |
 
-  Your lane: coordinate, inspect, plan, review diffs, run tests, manage git, write
+  Your lane: coordinate, inspect, plan, review diffs, run tests, write
   `Changes` notes and prose docs. When in doubt, delegate. Why: only the
   `alien-libgit2-*` agents get `alien-libgit2-core` / `perl-alien` force-loaded via
   `briefing.skills`; you get no briefing and would edit the build with too little context.
@@ -42,6 +42,9 @@ Depends on whether the Agent/Task tool is available to you.
 Behavior-relevant = anything changing what gets installed or how it is found: `alienfile`,
 `share/`, `.github/workflows/`, `cpanfile`, `dist.ini`, `t/`, and the POD stating the
 version floor. Prose and `Changes` notes are not.
+
+**Only `alien-libgit2-release-manager` commits.** A worker leaves a commit-ready tree and hands its card
+to `review`; you then dispatch `alien-libgit2-release-manager` to cut the commit and close the card.
 
 ## Project hazards — why this file is worth loading
 
@@ -64,7 +67,7 @@ version floor. Prose and `Changes` notes are not.
 ## Coordination — karr board (always in scope)
 
 Ticket coordination is the orchestrating agent's job, so `karr` is always in scope — don't
-invoke the `kanban-issues-karr-cli` skill first, just use it. Git-native kanban, state in
+invoke the `kanban-issues-karr-coordination` skill first, just use it. Git-native kanban, state in
 `refs/karr/*` of this repo: `karr board` / `karr list --compact` to see open work,
 `karr create "Title" --priority high`, `karr move ID in-progress --claim NAME`,
 `karr handoff ID --claim NAME`. Full surface: that skill.
@@ -79,7 +82,7 @@ may run parallel, the `karr move`/`handoff`/`sync` calls run sequentially.
 STRICTLY forbidden without the maintainer's explicit go-ahead — even if a plan lists
 "release" as the next step. A libgit2 version change is always its own release, and
 `Git::Libgit2` / `Git::Native` get told. Pre-release audit goes through
-`alien-libgit2-release-checker`.
+`alien-libgit2-release-manager`.
 
 ## Public issues (GitHub) — never act without instruction
 

@@ -46,7 +46,7 @@ principle and lane are in `.claude/rules/alien-libgit2-rules.md`.
 | Task | Agent |
 |---|---|
 | alienfile, `share/` tarball, CI workflows, `t/`, `lib/Alien/`, POD | `alien-libgit2-worker` (default) |
-| Pre-release audit before a CPAN release | `alien-libgit2-release-checker` |
+| Commits, `Changes`, card → done, pre-release audit | `alien-libgit2-release-manager` |
 
 The agents carry their skills via `briefing.skills` (see `.claude/agents/`); the main
 agent delegates rather than loading them. Tickets live on the repo's `karr` board.
@@ -63,7 +63,7 @@ fresh clone, and a hardlinked `SKILL.md` is edited in place, never with `Edit`/`
 | `perl-alien` | Alien::Build itself: `probe`/`share`, `PkgConfig`, `install_prop` vs `runtime_prop`, `Test::Alien` |
 | `getty-perl-core` | house Perl conventions |
 | `getty-perl-release-author-getty`, `perl-release-dist-ini` | the `[@Author::GETTY]` bundle and `dist.ini` |
-| `kanban-issues-karr-cli` | the karr board |
+| `kanban-issues-karr-coordination` | the karr board |
 
 `perl-xs` is deliberately not linked: every consumer reaches libgit2 through FFI, so
 this distribution has no Perl/C boundary. Link it if an XS consumer ever appears.
