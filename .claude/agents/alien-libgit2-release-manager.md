@@ -2,7 +2,6 @@
 name: alien-libgit2-release-manager
 description: "Owns alien-libgit2's commits and release readiness — cuts commits from the worker's commit-ready tree, writes commit messages and Changes entries, moves karr cards to done. Release audit: Alien::Libgit2 before a CPAN release — cpanfile phases for an Alien dist (configure + build), dist.ini alien_build/version_finder, Changes/{{$NEXT}} against the diff, both install paths green, and the 1.9.3 floor plus bundled tarball consistent across alienfile, POD, README, CLAUDE.md and CI. Workers never commit; this agent does. Never pushes, tags or releases."
 model: sonnet
-allowed-tools: Read, Edit, Write, Bash, Glob, Grep
 briefing:
   skills:
     - getty-git-commit-style

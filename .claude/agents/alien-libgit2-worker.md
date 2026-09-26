@@ -2,7 +2,6 @@
 name: alien-libgit2-worker
 description: "Default Alien::Libgit2 worker — implement, refactor, debug and test everything in this single CPAN distribution: the alienfile (probe + share build), the bundled libgit2 tarball, the CI matrix, t/01-alien.t, POD and README. Pre-loaded with the two install paths, the 1.9.3 bug floor, the CMake flag set and the Alien::Build conventions. Use for any change under alienfile, share/, .github/workflows/, t/ or lib/Alien/. Leaves a commit-ready tree; never commits — commits belong to alien-libgit2-release-manager."
 model: inherit
-allowed-tools: Read, Edit, Write, Bash, Glob, Grep
 briefing:
   skills:
     - alien-libgit2-core
