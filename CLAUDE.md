@@ -41,7 +41,8 @@ measurements, ABI pinning and the procedure for bundling a new libgit2: skill
 ## Delegation
 
 Delegate behavior-relevant work to the right agent instead of touching it yourself —
-principle and lane are in `.claude/rules/alien-libgit2-rules.md`.
+the principle is a shared house rule (skilletor bundle `getty-cpan-dist@getty`); lanes and
+hazards are in `.claude/rules/alien-libgit2-rules.md`.
 
 | Task | Agent |
 |---|---|
