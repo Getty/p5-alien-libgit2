@@ -36,11 +36,9 @@ Never `git commit`: leave the tree commit-ready and report what changed and why,
   (`settings.json`, `agents/`, `skills/`, `rules/`, `hooks/`). A new directory
   under `.claude/` is invisible to git until it is whitelisted there — check
   `git status --short` after adding one, not just the file listing.
-- **Skill files under `.claude/skills/` are hardlinks** to `~/dev/skills/…`.
-  Editing one with `Edit`/`Write` detaches the inode and silently forks every
-  other repo's copy; rewrite in place (`cat > path <<'EOF'`) instead. The
-  project-owned `alien-libgit2-core` has no link yet — normal edits are fine
-  there.
+- **Shared skills under `.claude/skills/` are installed by skilletor** and
+  re-rendered on every sync; a change one of them needs goes as a note on your
+  card. The project-owned `alien-libgit2-core` is edited here.
 
 ## Verification
 
