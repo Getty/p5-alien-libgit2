@@ -1,6 +1,8 @@
 Revision history for Alien-Libgit2
 
 {{$NEXT}}
+  - The tarball carries the agent context the release was built with under
+    misc/agent-context/ (not installed).
 
 0.002     2026-08-30 13:47:34Z
 
